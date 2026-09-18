@@ -1,0 +1,246 @@
+body.sage-depth-open {
+  overflow: hidden;
+}
+
+#sage-depth-experience {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100svh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  color: #eadfca;
+  background: #0a0705;
+  opacity: 0;
+  transition: opacity .36s ease;
+}
+
+#sage-depth-experience::backdrop {
+  background: #030201;
+}
+
+#sage-depth-experience.is-visible {
+  opacity: 1;
+}
+
+.sage-depth__scroller {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  outline: none;
+}
+
+.sage-depth__scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.sage-depth__track {
+  position: relative;
+  height: 440svh;
+}
+
+.sage-depth__stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(112, 66, 27, .16), transparent 42%),
+    #0a0705;
+  perspective: 1500px;
+  perspective-origin: 50% 50%;
+}
+
+.sage-depth__top {
+  position: absolute;
+  z-index: 100;
+  top: 26px;
+  left: 4%;
+  right: 4%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #d8c7a7;
+  font-size: 9px;
+  letter-spacing: 2.2px;
+}
+
+.sage-depth__close {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(218, 194, 151, .42);
+  font-size: 12px;
+  letter-spacing: 0;
+}
+
+.sage-depth__close b {
+  font-size: 25px;
+  font-weight: 300;
+  line-height: .7;
+  transition: transform .3s ease;
+}
+
+.sage-depth__close:hover b {
+  transform: rotate(90deg);
+}
+
+.sage-depth__intro,
+.sage-depth__outro {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.sage-depth__intro > span,
+.sage-depth__outro > span {
+  color: #caad78;
+  font-size: 9px;
+  letter-spacing: 3px;
+}
+
+.sage-depth__intro h2,
+.sage-depth__outro h3 {
+  margin-top: 18px;
+  font: 400 clamp(62px, 8vw, 130px)/.88 Epic, Georgia, serif;
+  letter-spacing: -4px;
+}
+
+.sage-depth__intro p {
+  margin-top: 24px;
+  color: #aa9e8b;
+  font-size: 12px;
+  letter-spacing: .5px;
+}
+
+.sage-depth__outro {
+  opacity: 0;
+}
+
+.sage-depth__outro h3 {
+  font-size: clamp(54px, 7vw, 105px);
+}
+
+.sage-depth__scene {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.sage-depth__image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(260px, 32vw, 570px);
+  aspect-ratio: 4 / 3;
+  margin: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  background: #19120d;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, .62);
+}
+
+.sage-depth__image--portrait {
+  width: clamp(210px, 23vw, 410px);
+  aspect-ratio: 3 / 4;
+}
+
+.sage-depth__image--wide {
+  width: clamp(320px, 39vw, 700px);
+  aspect-ratio: 16 / 9;
+}
+
+.sage-depth__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sage-depth__progress {
+  position: absolute;
+  z-index: 100;
+  right: 4%;
+  bottom: 27px;
+  display: grid;
+  grid-template-columns: auto minmax(90px, 13vw) 38px;
+  gap: 13px;
+  align-items: center;
+  color: #c8b798;
+  font-size: 8px;
+  letter-spacing: 1.8px;
+}
+
+.sage-depth__progress i {
+  height: 1px;
+  overflow: hidden;
+  background: rgba(224, 204, 165, .2);
+}
+
+.sage-depth__progress b {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #d4b77e;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.sage-depth__progress output {
+  text-align: right;
+}
+
+@media (max-width: 760px) {
+  .sage-depth__top {
+    left: 24px;
+    right: 24px;
+  }
+
+  .sage-depth__intro h2,
+  .sage-depth__outro h3 {
+    font-size: clamp(55px, 17vw, 82px);
+    letter-spacing: -2px;
+  }
+
+  .sage-depth__image {
+    width: 70vw;
+  }
+
+  .sage-depth__image--portrait {
+    width: 54vw;
+  }
+
+  .sage-depth__image--wide {
+    width: 82vw;
+  }
+
+  .sage-depth__progress {
+    right: 24px;
+    grid-template-columns: auto 90px 34px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #sage-depth-experience {
+    transition: none;
+  }
+}

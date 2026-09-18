@@ -1,0 +1,180 @@
+/* Gabriel Veres-inspired vault: large sheets queue from the upper-right to lower-left. */
+.vault-section {
+  background:
+    radial-gradient(circle at 78% 24%, rgba(60, 88, 71, .16), transparent 34%),
+    #030806;
+}
+
+.vault-window {
+  min-height: 500px;
+  background:
+    linear-gradient(125deg, rgba(13, 29, 23, .72), rgba(2, 6, 4, .96) 58%),
+    #030806;
+  border-color: rgba(217, 195, 153, .18);
+  perspective: 1800px;
+  isolation: isolate;
+  outline: none;
+  --vc-w: clamp(420px, 44vw, 720px);
+  --vc-h: auto;
+}
+
+.vault-deck {
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, transparent 0 49.85%, rgba(217, 195, 153, .045) 50%, transparent 50.15%);
+}
+
+.vault-window.entered .vault-deck {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.vault-card {
+  position: absolute;
+  top: 5%;
+  right: 3%;
+  left: auto;
+  width: var(--vc-w);
+  height: auto;
+  aspect-ratio: 16 / 9;
+  margin: 0;
+  border-radius: 1px;
+  transform-origin: 50% 50%;
+  transform: translate3d(calc(var(--deck-x) + var(--vault-travel-x, 0%)), calc(var(--deck-y) + var(--vault-travel-y, 0%)), var(--deck-z)) rotateY(var(--deck-ry, 0deg)) scale(var(--deck-scale));
+  translate: 0 0;
+  opacity: 1;
+  filter: brightness(var(--deck-light)) saturate(.82);
+  box-shadow:
+    0 34px 75px -30px rgba(0, 0, 0, .92),
+    0 0 0 1px rgba(226, 204, 162, .2);
+  transition:
+    top .68s cubic-bezier(.2, .78, .18, 1),
+    left .68s cubic-bezier(.2, .78, .18, 1),
+    right .68s cubic-bezier(.2, .78, .18, 1),
+    transform .68s cubic-bezier(.2, .78, .18, 1),
+    translate .68s cubic-bezier(.2, .78, .18, 1),
+    filter .45s ease,
+    opacity .48s ease,
+    box-shadow .55s ease;
+  transition-delay: 0ms;
+  will-change: transform, translate;
+  backface-visibility: hidden;
+  pointer-events: auto;
+}
+
+.vault-card:nth-child(1) { --deck-x: 0%; --deck-y: 0%; --deck-z: -150px; --deck-scale: .91; --deck-light: .62; --deck-ry: 42deg; --deck-delay: 0ms; z-index: 4; }
+.vault-card:nth-child(2) { --deck-x: -23%; --deck-y: 19%; --deck-z: -125px; --deck-scale: .925; --deck-light: .68; --deck-ry: 35deg; --deck-delay: 65ms; z-index: 5; }
+.vault-card:nth-child(3) { --deck-x: -46%; --deck-y: 38%; --deck-z: -100px; --deck-scale: .94; --deck-light: .74; --deck-ry: 28deg; --deck-delay: 130ms; z-index: 6; }
+.vault-card:nth-child(4) { --deck-x: -69%; --deck-y: 57%; --deck-z: -75px; --deck-scale: .955; --deck-light: .80; --deck-ry: 21deg; --deck-delay: 195ms; z-index: 7; }
+.vault-card:nth-child(5) { --deck-x: -92%; --deck-y: 76%; --deck-z: -50px; --deck-scale: .97; --deck-light: .86; --deck-ry: 14deg; --deck-delay: 260ms; z-index: 8; }
+.vault-card:nth-child(6) { --deck-x: -115%; --deck-y: 95%; --deck-z: -25px; --deck-scale: .985; --deck-light: .92; --deck-ry: 7deg; --deck-delay: 325ms; z-index: 9; }
+.vault-card:nth-child(7) { --deck-x: -138%; --deck-y: 114%; --deck-z: 0; --deck-scale: 1; --deck-light: 1; --deck-ry: 0deg; --deck-delay: 390ms; z-index: 10; }
+.vault-card:nth-child(8) { --deck-x: 23%; --deck-y: -19%; --deck-z: -150px; --deck-scale: .91; --deck-light: .62; --deck-ry: 42deg; --deck-delay: 455ms; z-index: 3; }
+.vault-card:nth-child(9) { --deck-x: 46%; --deck-y: -38%; --deck-z: -150px; --deck-scale: .91; --deck-light: .62; --deck-ry: 42deg; --deck-delay: 520ms; z-index: 2; }
+.vault-card:nth-child(10) { --deck-x: 69%; --deck-y: -57%; --deck-z: -150px; --deck-scale: .91; --deck-light: .62; --deck-ry: 42deg; --deck-delay: 585ms; z-index: 1; }
+
+.vault-window.entered .vault-card {
+  animation: vault-card-in .68s cubic-bezier(.2, .78, .18, 1) backwards;
+  animation-delay: var(--deck-delay);
+}
+
+@keyframes vault-card-in {
+  from {
+    translate: 150px -110px;
+    opacity: 0;
+  }
+}
+
+.vault-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, rgba(255, 235, 196, .06), transparent 30% 70%, rgba(0, 0, 0, .24));
+}
+
+.vault-card .vc-face,
+.vault-card .vc-detail {
+  z-index: 1;
+}
+
+.vault-card .vc-face {
+  padding: 22px 26px;
+}
+
+.vault-card .vc-face b {
+  font-size: 10px;
+  letter-spacing: 2.6px;
+}
+
+.vault-card .vc-detail {
+  justify-content: flex-end;
+  padding: 34px;
+  background: linear-gradient(0deg, rgba(2, 8, 5, .95), rgba(3, 11, 7, .18) 75%);
+  backdrop-filter: none;
+}
+
+.vault-card.is-active {
+  top: 50%;
+  left: 50%;
+  right: auto;
+  z-index: 40;
+  translate: 0 0;
+  transform: translate(-50%, -50%) translateZ(180px) scale(.95);
+  filter: brightness(1.04) saturate(1.03);
+  box-shadow:
+    0 55px 95px -30px rgba(0, 0, 0, .96),
+    0 0 0 1px rgba(235, 213, 170, .4);
+  transition-delay: 0ms;
+}
+
+.vault-card.is-dimmed {
+  filter: brightness(.36) saturate(.55);
+  transition-delay: 0ms;
+}
+
+@media (max-width: 760px) {
+  .vault-window {
+    min-height: 430px;
+    --vc-w: clamp(300px, 78vw, 410px);
+  }
+
+  .vault-card:nth-child(1) { --deck-x: 8%; --deck-y: 0%; }
+  .vault-card:nth-child(2) { --deck-x: -10%; --deck-y: 23%; }
+  .vault-card:nth-child(3) { --deck-x: -28%; --deck-y: 46%; }
+  .vault-card:nth-child(4) { --deck-x: -46%; --deck-y: 69%; }
+  .vault-card:nth-child(5) { --deck-x: -64%; --deck-y: 92%; }
+  .vault-card:nth-child(6) { --deck-x: -82%; --deck-y: 115%; }
+  .vault-card:nth-child(7) { --deck-x: -100%; --deck-y: 138%; }
+  .vault-card:nth-child(8) { --deck-x: 26%; --deck-y: -23%; }
+  .vault-card:nth-child(9) { --deck-x: 44%; --deck-y: -46%; }
+  .vault-card:nth-child(10) { --deck-x: 62%; --deck-y: -69%; }
+
+  .vault-card.is-active {
+    top: 50%;
+    left: 50%;
+    right: auto;
+    translate: 0 0;
+    transform: translate(-50%, -50%) translateZ(110px) scale(.95);
+  }
+
+  .vault-card .vc-detail {
+    padding: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vault-card {
+    transition: opacity .15s ease;
+  }
+
+  .vault-window.entered .vault-card {
+    animation: none;
+  }
+}
