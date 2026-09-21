@@ -47,6 +47,9 @@
   aspect-ratio: 16 / 9;
   margin: 0;
   border-radius: 1px;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
   transform-origin: 50% 50%;
   transform: translate3d(calc(var(--deck-x) + var(--vault-travel-x, 0%)), calc(var(--deck-y) + var(--vault-travel-y, 0%)), var(--deck-z)) rotateY(var(--deck-ry, 0deg)) scale(var(--deck-scale));
   translate: 0 0;
@@ -80,6 +83,8 @@
 .vault-card:nth-child(8) { --deck-x: 23%; --deck-y: -19%; --deck-z: -150px; --deck-scale: .91; --deck-light: .62; --deck-ry: -50deg; --deck-delay: 455ms; z-index: 3; }
 .vault-card:nth-child(9) { --deck-x: 46%; --deck-y: -38%; --deck-z: -150px; --deck-scale: .91; --deck-light: .62; --deck-ry: -50deg; --deck-delay: 520ms; z-index: 2; }
 .vault-card:nth-child(10) { --deck-x: 69%; --deck-y: -57%; --deck-z: -150px; --deck-scale: .91; --deck-light: .62; --deck-ry: -50deg; --deck-delay: 585ms; z-index: 1; }
+.vault-card:nth-child(11) { --deck-x: 92%; --deck-y: -76%; --deck-z: -150px; --deck-scale: .91; --deck-light: .62; --deck-ry: -50deg; --deck-delay: 650ms; z-index: 0; }
+.vault-card:nth-child(12) { --deck-x: 115%; --deck-y: -95%; --deck-z: -150px; --deck-scale: .91; --deck-light: .62; --deck-ry: -50deg; --deck-delay: 715ms; z-index: -1; }
 
 .vault-window.entered .vault-card {
   animation: vault-card-in .68s cubic-bezier(.2, .78, .18, 1) backwards;
@@ -137,6 +142,22 @@
   transition-delay: 0ms;
 }
 
+.vault-card .vc-video {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .35s ease;
+}
+
+.vault-card.is-active .vc-video {
+  opacity: 1;
+}
+
 .vault-card.is-dimmed {
   filter: brightness(.36) saturate(.55);
   transition-delay: 0ms;
@@ -179,6 +200,8 @@
   .vault-card:nth-child(8) { --deck-x: 26%; --deck-y: -23%; }
   .vault-card:nth-child(9) { --deck-x: 44%; --deck-y: -46%; }
   .vault-card:nth-child(10) { --deck-x: 62%; --deck-y: -69%; }
+  .vault-card:nth-child(11) { --deck-x: 80%; --deck-y: -92%; }
+  .vault-card:nth-child(12) { --deck-x: 98%; --deck-y: -115%; }
 
   .vault-card.is-active {
     top: 50%;
