@@ -1,0 +1,15 @@
+.ayodhya {
+  left: 24%;
+  top: 29%;
+}
+
+@media (max-width: 760px) {
+  .terrain img {
+    object-position: 24% center;
+  }
+
+  .ayodhya {
+    left: 24%;
+    top: 29%;
+  }
+}
