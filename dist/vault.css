@@ -11,7 +11,7 @@
     linear-gradient(125deg, rgba(13, 29, 23, .72), rgba(2, 6, 4, .96) 58%),
     #030806;
   border-color: rgba(217, 195, 153, .18);
-  perspective: 1800px;
+  perspective: 2400px;
   isolation: isolate;
   outline: none;
   --vc-w: clamp(420px, 44vw, 720px);
@@ -20,10 +20,13 @@
 
 .vault-deck {
   display: block;
+  position: absolute;
+  inset: 0;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  overflow: hidden;
+  overflow: visible;
+  transform-style: preserve-3d;
   background:
     linear-gradient(135deg, transparent 0 49.85%, rgba(217, 195, 153, .045) 50%, transparent 50.15%);
 }
@@ -67,16 +70,16 @@
   pointer-events: auto;
 }
 
-.vault-card:nth-child(1) { --deck-x: 0%; --deck-y: 0%; --deck-z: -150px; --deck-scale: .91; --deck-light: .62; --deck-ry: 42deg; --deck-delay: 0ms; z-index: 4; }
-.vault-card:nth-child(2) { --deck-x: -23%; --deck-y: 19%; --deck-z: -125px; --deck-scale: .925; --deck-light: .68; --deck-ry: 35deg; --deck-delay: 65ms; z-index: 5; }
-.vault-card:nth-child(3) { --deck-x: -46%; --deck-y: 38%; --deck-z: -100px; --deck-scale: .94; --deck-light: .74; --deck-ry: 28deg; --deck-delay: 130ms; z-index: 6; }
-.vault-card:nth-child(4) { --deck-x: -69%; --deck-y: 57%; --deck-z: -75px; --deck-scale: .955; --deck-light: .80; --deck-ry: 21deg; --deck-delay: 195ms; z-index: 7; }
-.vault-card:nth-child(5) { --deck-x: -92%; --deck-y: 76%; --deck-z: -50px; --deck-scale: .97; --deck-light: .86; --deck-ry: 14deg; --deck-delay: 260ms; z-index: 8; }
-.vault-card:nth-child(6) { --deck-x: -115%; --deck-y: 95%; --deck-z: -25px; --deck-scale: .985; --deck-light: .92; --deck-ry: 7deg; --deck-delay: 325ms; z-index: 9; }
-.vault-card:nth-child(7) { --deck-x: -138%; --deck-y: 114%; --deck-z: 0; --deck-scale: 1; --deck-light: 1; --deck-ry: 0deg; --deck-delay: 390ms; z-index: 10; }
-.vault-card:nth-child(8) { --deck-x: 23%; --deck-y: -19%; --deck-z: -150px; --deck-scale: .91; --deck-light: .62; --deck-ry: 42deg; --deck-delay: 455ms; z-index: 3; }
-.vault-card:nth-child(9) { --deck-x: 46%; --deck-y: -38%; --deck-z: -150px; --deck-scale: .91; --deck-light: .62; --deck-ry: 42deg; --deck-delay: 520ms; z-index: 2; }
-.vault-card:nth-child(10) { --deck-x: 69%; --deck-y: -57%; --deck-z: -150px; --deck-scale: .91; --deck-light: .62; --deck-ry: 42deg; --deck-delay: 585ms; z-index: 1; }
+.vault-card:nth-child(1) { --deck-x: 0%; --deck-y: 0%; --deck-z: -150px; --deck-scale: .91; --deck-light: .62; --deck-ry: -50deg; --deck-delay: 0ms; z-index: 4; }
+.vault-card:nth-child(2) { --deck-x: -23%; --deck-y: 19%; --deck-z: -125px; --deck-scale: .925; --deck-light: .68; --deck-ry: -46deg; --deck-delay: 65ms; z-index: 5; }
+.vault-card:nth-child(3) { --deck-x: -46%; --deck-y: 38%; --deck-z: -100px; --deck-scale: .94; --deck-light: .74; --deck-ry: -42deg; --deck-delay: 130ms; z-index: 6; }
+.vault-card:nth-child(4) { --deck-x: -69%; --deck-y: 57%; --deck-z: -75px; --deck-scale: .955; --deck-light: .80; --deck-ry: -38deg; --deck-delay: 195ms; z-index: 7; }
+.vault-card:nth-child(5) { --deck-x: -92%; --deck-y: 76%; --deck-z: -50px; --deck-scale: .97; --deck-light: .86; --deck-ry: -34deg; --deck-delay: 260ms; z-index: 8; }
+.vault-card:nth-child(6) { --deck-x: -115%; --deck-y: 95%; --deck-z: -25px; --deck-scale: .985; --deck-light: .92; --deck-ry: -30deg; --deck-delay: 325ms; z-index: 9; }
+.vault-card:nth-child(7) { --deck-x: -138%; --deck-y: 114%; --deck-z: 0; --deck-scale: 1; --deck-light: 1; --deck-ry: -26deg; --deck-delay: 390ms; z-index: 10; }
+.vault-card:nth-child(8) { --deck-x: 23%; --deck-y: -19%; --deck-z: -150px; --deck-scale: .91; --deck-light: .62; --deck-ry: -50deg; --deck-delay: 455ms; z-index: 3; }
+.vault-card:nth-child(9) { --deck-x: 46%; --deck-y: -38%; --deck-z: -150px; --deck-scale: .91; --deck-light: .62; --deck-ry: -50deg; --deck-delay: 520ms; z-index: 2; }
+.vault-card:nth-child(10) { --deck-x: 69%; --deck-y: -57%; --deck-z: -150px; --deck-scale: .91; --deck-light: .62; --deck-ry: -50deg; --deck-delay: 585ms; z-index: 1; }
 
 .vault-window.entered .vault-card {
   animation: vault-card-in .68s cubic-bezier(.2, .78, .18, 1) backwards;
@@ -137,6 +140,27 @@
 .vault-card.is-dimmed {
   filter: brightness(.36) saturate(.55);
   transition-delay: 0ms;
+}
+
+/* Hover peek: slides right in-plane, keeping the same tilt as the rest of
+   the deck (parallel). Lifted forward in depth only so its rotated plane
+   clears the neighboring cards instead of cutting through them. */
+.vault-window.entered .vault-card.is-peeking:not(.is-active) {
+  z-index: 20;
+  transform: translate3d(calc(var(--deck-x) + var(--vault-travel-x, 0%) + 50%), calc(var(--deck-y) + var(--vault-travel-y, 0%)), calc(var(--deck-z) + 260px)) rotateY(var(--deck-ry, 0deg)) scale(var(--deck-scale));
+  filter: brightness(calc(var(--deck-light) + .18)) saturate(.9);
+  box-shadow:
+    0 44px 88px -34px rgba(0, 0, 0, .95),
+    0 0 0 1px rgba(233, 211, 168, .34);
+  transition:
+    transform .38s cubic-bezier(.22, .72, .2, 1),
+    filter .34s ease,
+    box-shadow .5s ease;
+  transition-delay: 0ms;
+}
+
+.vault-card.no-anim {
+  transition: none !important;
 }
 
 @media (max-width: 760px) {
