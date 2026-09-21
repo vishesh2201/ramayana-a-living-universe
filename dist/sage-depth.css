@@ -170,10 +170,12 @@ body.sage-depth-open {
   aspect-ratio: 16 / 9;
 }
 
-.sage-depth__image img {
+.sage-depth__image img,
+.sage-depth__image video {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  pointer-events: none;
 }
 
 .sage-depth__progress {
