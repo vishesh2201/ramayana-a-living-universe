@@ -21,7 +21,7 @@ function go(p){scrollTo({top:(journey.offsetHeight-innerHeight)*p,behavior:reduc
 $$('[data-go-map]').forEach(b=>b.addEventListener('click',()=>go(1)));$('[data-go-descent]').addEventListener('click',()=>go(.44));$('.wordmark').addEventListener('click',e=>{e.preventDefault();go(0)});$$('[data-chapter]').forEach(b=>b.addEventListener('click',()=>go([0,.44,1][+b.dataset.chapter])));
 
 const locationNames={ayodhya:'Ayodhya',mithila:'Mithila',forests:'The Forests',lanka:'Lanka'};
-const locationImages={ayodhya:'assets/PHOTO-2026-09-19-17-23-21.jpg',mithila:'assets/ayodhya.webp',forests:'assets/forest-preview.png',lanka:'assets/ayodhya.webp'};
+const locationImages={ayodhya:'assets/PHOTO-2026-09-19-17-23-21.jpg',mithila:'assets/mithila.webp',forests:'assets/forest-preview.png',lanka:'assets/lanka.webp'};
 const locationPreview=document.createElement('dialog');
 locationPreview.id='location-preview';
 locationPreview.setAttribute('aria-labelledby','location-preview-title');
