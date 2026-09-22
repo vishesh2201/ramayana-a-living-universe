@@ -38,7 +38,7 @@
 .sage-depth__stage {
   position: sticky;
   top: 0;
-  height: calc(100svh - 120px);
+  height: calc(100svh - 40px);
   overflow: hidden;
   isolation: isolate;
   background:
@@ -48,8 +48,7 @@
   perspective-origin: 50% 50%;
 }
 
-.sage-depth__intro,
-.sage-depth__outro {
+.sage-depth__intro {
   position: absolute;
   z-index: 2;
   inset: 0;
@@ -62,15 +61,13 @@
   will-change: opacity, transform;
 }
 
-.sage-depth__intro > span,
-.sage-depth__outro > span {
+.sage-depth__intro > span {
   color: #caad78;
   font-size: 9px;
   letter-spacing: 3px;
 }
 
-.sage-depth__intro h2,
-.sage-depth__outro h3 {
+.sage-depth__intro h2 {
   margin-top: 18px;
   font: 400 clamp(62px, 8vw, 130px)/.88 Epic, Georgia, serif;
   letter-spacing: -4px;
@@ -81,14 +78,6 @@
   color: #aa9e8b;
   font-size: 12px;
   letter-spacing: .5px;
-}
-
-.sage-depth__outro {
-  opacity: 0;
-}
-
-.sage-depth__outro h3 {
-  font-size: clamp(54px, 7vw, 105px);
 }
 
 .sage-depth__scene {
@@ -167,11 +156,10 @@
 
 @media (max-width: 760px) {
   .sage-depth__stage {
-    height: 75svh;
+    height: 88svh;
   }
 
-  .sage-depth__intro h2,
-  .sage-depth__outro h3 {
+  .sage-depth__intro h2 {
     font-size: clamp(55px, 17vw, 82px);
     letter-spacing: -2px;
   }
