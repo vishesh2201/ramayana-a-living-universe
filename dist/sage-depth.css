@@ -147,7 +147,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: clamp(360px, 42vw, 800px);
+  width: clamp(400px, 46vw, 880px);
   aspect-ratio: 4 / 3;
   margin: 0;
   overflow: hidden;
@@ -164,7 +164,7 @@
 }
 
 .sage-depth__image--wide {
-  width: clamp(440px, 52vw, 1000px);
+  width: clamp(480px, 57vw, 1100px);
   aspect-ratio: 16 / 9;
 }
 
@@ -228,15 +228,15 @@
   }
 
   .sage-depth__image {
-    width: 82vw;
+    width: 88vw;
   }
 
   .sage-depth__image--portrait {
-    width: 62vw;
+    width: 68vw;
   }
 
   .sage-depth__image--wide {
-    width: 92vw;
+    width: 96vw;
   }
 
   .sage-depth__progress {

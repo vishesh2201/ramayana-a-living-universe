@@ -342,7 +342,7 @@
 }
 
 .vault-nav-arrow--prev {
-  left: 22px;
+  left: 110px;
 }
 
 .vault-nav-arrow--prev:hover,
@@ -351,7 +351,7 @@
 }
 
 .vault-nav-arrow--next {
-  right: 22px;
+  right: 110px;
 }
 
 .vault-nav-arrow--next:hover,
