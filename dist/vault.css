@@ -154,7 +154,7 @@
 }
 
 .vault-card .vc-face {
-  display: none;
+  display: none !important;
 }
 
 .vault-card .vc-face b {
@@ -235,6 +235,13 @@
 
 .vault-card.no-anim {
   transition: none !important;
+}
+
+/* Used when jumping directly between two already-open cards (arrow nav) so
+   the incoming/outgoing card snaps to position instead of visibly flying
+   across the stack through the other cards; brightness/shadow still ease. */
+.vault-card.no-position-anim {
+  transition: filter .45s ease, opacity .48s ease, box-shadow .55s ease !important;
 }
 
 @media (max-width: 760px) {
