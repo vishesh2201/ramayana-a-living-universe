@@ -8,6 +8,7 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='20' fill='%23071313'/%3E%3Cpath d='M12 31V9h8c12 0 12 13 0 13h-8m8 0 10 9' fill='none' stroke='%23d5bb82' stroke-width='2'/%3E%3C/svg%3E">
   <link rel="preload" href="assets/trinity.webp" as="image"><link rel="preload" href="assets/serif.woff" as="font" type="font/woff" crossorigin>
   <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="flow.css"><link rel="stylesheet" href="vault.css"><link rel="stylesheet" href="location-preview.css"><link rel="stylesheet" href="sage-depth.css"><link rel="stylesheet" href="location-map.css"><script src="app.js" defer></script><script src="flow.js" defer></script>
+  <link rel="stylesheet" href="flow-transitions.css">
 </head>
 <body>
   <header class="header">
@@ -67,5 +68,6 @@
   </main>
   <nav class="flow-nav" aria-label="Full journey"><button data-chapter="0" aria-label="01 Enter the universe">01</button><button data-chapter="1" aria-label="02 Descend into the world">02</button><button data-chapter="2" aria-label="03 Explore locations">03</button><a href="#vault" aria-label="04 Enter the vault">04</a><a href="#characters" aria-label="05 Discover characters">05</a><a href="#story" aria-label="06 Get the Superpass">06</a><a href="#tickets" aria-label="07 Take action">07</a></nav>
   <dialog id="ticket-preview" aria-labelledby="booking-title"><button id="close-booking" aria-label="Close ticket preview">×</button><span class="eyebrow">TICKETING PREVIEW</span><h2 id="booking-title">The big screen awaits.</h2><p id="booking-city"></p><p>Cinema listings, showtimes and available tickets will appear here for your selected city.</p><div class="booking-note">This is a prototype. No tickets are sold or reserved.</div><button id="change-city">Change city ←</button></dialog>
+  <div class="chapter-veil" aria-hidden="true"></div>
 </body>
 </html>

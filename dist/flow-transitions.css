@@ -1,0 +1,61 @@
+.flow-slot {
+  position: relative;
+  height: 150svh;
+}
+
+.flow-slot--first {
+  margin-top: -100svh;
+}
+
+.flow-slot > .flow-section {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100svh;
+  min-height: 0;
+  padding-top: clamp(88px, 11svh, 120px);
+  padding-bottom: 72px;
+  opacity: var(--flow-arrival, 0);
+  transform: translateZ(0);
+  pointer-events: none;
+  backface-visibility: hidden;
+  will-change: opacity;
+}
+
+.flow-slot > .flow-section.is-flow-active {
+  pointer-events: auto;
+}
+
+.flow-slot .reference-window,
+.flow-slot .sage-window {
+  height: calc(100svh - 300px);
+  min-height: 300px;
+}
+
+.flow-slot > .story-section,
+.flow-slot > .ticket-section {
+  min-height: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flow-slot > .flow-section {
+    transform: none !important;
+    will-change: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .flow-slot > .flow-section {
+    padding: 82px 24px 68px;
+  }
+
+  .flow-slot .reference-window,
+  .flow-slot .sage-window {
+    height: calc(100svh - 250px);
+    min-height: 300px;
+  }
+
+  .flow-slot .section-footer {
+    bottom: 28px;
+  }
+}

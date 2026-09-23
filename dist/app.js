@@ -1,9 +1,34 @@
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-const journey=$('.journey'),divine=$('.divine'),terrain=$('.terrain'),mist=$('.atmosphere'),hero=$('.hero-copy'),descent=$('.descent-copy'),map=$('.map-ui'),meta=$('.bottom-meta');
+const journey=$('.journey'),divine=$('.divine'),terrain=$('.terrain'),mist=$('.atmosphere'),hero=$('.hero-copy'),descent=$('.descent-copy'),map=$('.map-ui'),meta=$('.bottom-meta'),veil=$('.chapter-veil'),flowSections=$$('.flow-section');
 const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
 const smooth=(a,b,v)=>{const t=clamp((v-a)/(b-a));return t*t*(3-2*t)};
+flowSections.forEach((section,index)=>{
+ const slot=document.createElement('div');
+ slot.className=`flow-slot${index===0?' flow-slot--first':''}`;
+ section.before(slot);slot.append(section);
+ section.style.zIndex=String(10+index);
+});
+const flowSlots=$$('.flow-slot');
 let progress=0,queued=false,currentChapter=-1;
+function renderFlowTransitions(){
+ let activeIndex=-1;
+ flowSections.forEach((section,index)=>{
+  const slot=flowSlots[index],top=slot.offsetTop-scrollY,bottom=top+slot.offsetHeight;
+  const approaching=top>0&&top<innerHeight;
+  const active=top<=0&&bottom>0;
+  const arrival=reduced.matches?(active?1:0):approaching?smooth(.5,.96,1-top/innerHeight):active?1:0;
+  section.style.setProperty('--flow-arrival',arrival);
+  section.classList.toggle('is-flow-active',active);
+  section.inert=!active;
+  if(active||approaching&&arrival>.55)activeIndex=index;
+ });
+ if(activeIndex>=0){
+  const activeId=flowSections[activeIndex].id;
+  $('.flow-nav').classList.add('in-flow');
+  $$('.flow-nav a').forEach(link=>link.classList.toggle('active',link.hash===`#${activeId}`));
+ }
+}
 function render(){
  queued=false;progress=clamp(scrollY/(journey.offsetHeight-innerHeight));
  const p=progress,mapAlpha=smooth(.61,.83,p),divineAlpha=1-smooth(.18,.47,p),heroAlpha=1-smooth(.015,.23,p),descAlpha=smooth(.23,.38,p)*(1-smooth(.53,.68,p));
@@ -15,6 +40,8 @@ function render(){
  map.style.opacity=mapAlpha;map.inert=p<.79;meta.style.opacity=1-smooth(.06,.26,p);$('.progress-line span').style.width=`${p*100}%`;
  const chapter=p<.25?0:p<.7?1:2;
  if(chapter!==currentChapter){currentChapter=chapter;$$('[data-chapter]').forEach(b=>{const i=+b.dataset.chapter;b.classList.toggle('active',i===chapter);if(i===chapter)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current')})}
+ veil.style.opacity=0;
+ renderFlowTransitions();
 }
 addEventListener('scroll',()=>{if(!queued){queued=true;requestAnimationFrame(render)}},{passive:true});addEventListener('resize',render);
 function go(p){scrollTo({top:(journey.offsetHeight-innerHeight)*p,behavior:reduced.matches?'instant':'smooth'})}
