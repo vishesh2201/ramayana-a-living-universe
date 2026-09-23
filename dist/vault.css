@@ -153,7 +153,8 @@
   z-index: 1;
 }
 
-.vault-card .vc-face {
+.vault-card .vc-face,
+.vault-card .vc-detail {
   display: none !important;
 }
 
@@ -316,8 +317,8 @@
   position: absolute;
   top: 50%;
   z-index: 60;
-  width: 52px;
-  height: 52px;
+  width: 92px;
+  height: 92px;
   padding: 0;
   border: 0;
   background: none;
@@ -372,8 +373,8 @@
 
 @media (max-width: 760px) {
   .vault-nav-arrow {
-    width: 34px;
-    height: 34px;
+    width: 56px;
+    height: 56px;
   }
 
   .vault-nav-arrow--prev {
