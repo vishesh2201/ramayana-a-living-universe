@@ -1,0 +1,52 @@
+html:has(#superpass-modal.is-drawer[open]) {
+  scrollbar-gutter: stable;
+}
+
+#superpass-modal.is-drawer {
+  position: fixed;
+  inset: 0 0 0 auto;
+  right: calc(-1 * var(--superpass-scrollbar-width, 0px));
+  width: min(520px, 100%);
+  max-width: none;
+  height: 100svh;
+  max-height: 100svh;
+  margin: 0;
+  padding: clamp(54px, 7svh, 78px) 40px 32px;
+  border: 0;
+  border-left: 1px solid #d9c39960;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+#superpass-modal.is-drawer[open] {
+  animation: superpass-drawer-in .45s cubic-bezier(.2, .7, .2, 1) both;
+}
+
+#superpass-modal.is-drawer.is-closing[open] {
+  animation: superpass-drawer-out .42s cubic-bezier(.4, 0, .8, .3) both;
+  pointer-events: none;
+}
+
+#superpass-modal.is-drawer.is-closing::backdrop {
+  animation: superpass-backdrop-out .42s ease both;
+}
+
+@keyframes superpass-drawer-in {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes superpass-drawer-out {
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
+}
+
+@keyframes superpass-backdrop-out {
+  to { opacity: 0; }
+}
+
+@media (max-width: 760px) {
+  #superpass-modal.is-drawer {
+    padding: 56px 24px 24px;
+  }
+}

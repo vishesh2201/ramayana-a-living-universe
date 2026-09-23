@@ -4,7 +4,7 @@ document.head.append(superpassResponsiveStyles);
 superpassResponsiveStyles.append('#superpass-modal{max-height:none;overflow:visible}');
 const stages=$$('.flow-section');
 function scrollToFlowSection(section){(section.closest('.flow-slot')||section).scrollIntoView({behavior:reduced.matches?'instant':'smooth'});}
-$$('[data-scroll-to]').forEach(b=>b.addEventListener('click',event=>{if(b.closest('.header')){event.preventDefault();openSuperpass();return;}scrollToFlowSection(document.getElementById(b.dataset.scrollTo));}));
+$$('[data-scroll-to]').forEach(b=>b.addEventListener('click',event=>{if(b.closest('.header')){event.preventDefault();openSuperpass(true);return;}scrollToFlowSection(document.getElementById(b.dataset.scrollTo));}));
 $$('.flow-nav a').forEach(link=>link.addEventListener('click',event=>{event.preventDefault();scrollToFlowSection(document.querySelector(link.hash));}));
 const stageObserver=new IntersectionObserver(entries=>{for(const entry of entries){if(entry.isIntersecting&&!entry.target.closest('.flow-slot')){$$('.flow-nav a').forEach(a=>a.classList.toggle('active',a.hash==='#'+entry.target.id));$('.flow-nav').classList.add('in-flow');}}},{threshold:.35});stages.forEach(s=>stageObserver.observe(s));
 addEventListener('scroll',()=>{if(scrollY<journey.offsetHeight-innerHeight*.3){$('.flow-nav').classList.remove('in-flow');$$('.flow-nav a').forEach(a=>a.classList.remove('active'));}},{passive:true});
@@ -85,11 +85,22 @@ function closeBooking(){booking.close();document.body.style.overflow='';}
 $('#close-booking').addEventListener('click',closeBooking);$('#change-city').addEventListener('click',()=>{closeBooking();citySelect.focus()});booking.addEventListener('cancel',e=>{e.preventDefault();closeBooking()});
 const superpassModal=$('#superpass-modal'),superpassFormView=$('#superpass-form-view'),superpassSuccessView=$('#superpass-success-view'),superpassForm=$('#superpass-form');
 $('.booking-note',superpassModal)?.remove();
-function openSuperpass(){const theme=themes[currentStoryKey];$('#superpass-plan-badge').textContent=`${currentStoryKey.toUpperCase()} · ${theme.characters}`;superpassFormView.hidden=false;superpassSuccessView.hidden=true;superpassModal.showModal();document.body.style.overflow='hidden';$('#superpass-name').focus();}
-function closeSuperpass(){superpassModal.close();document.body.style.overflow='';}
-$('#get-superpass').addEventListener('click',openSuperpass);
+function openSuperpass(asDrawer=false){const theme=themes[currentStoryKey];$('#superpass-plan-badge').textContent=`${currentStoryKey.toUpperCase()} · ${theme.characters}`;superpassFormView.hidden=false;superpassSuccessView.hidden=true;superpassModal.classList.remove('is-closing');superpassModal.classList.toggle('is-drawer',asDrawer);if(asDrawer)superpassModal.style.setProperty('--superpass-scrollbar-width',`${Math.max(0,innerWidth-document.documentElement.clientWidth)}px`);superpassModal.showModal();document.body.style.overflow='hidden';$('#superpass-name').focus();}
+function closeSuperpass(){
+ if(!superpassModal.open||superpassModal.classList.contains('is-closing'))return;
+ const finish=()=>{superpassModal.close();superpassModal.classList.remove('is-drawer','is-closing');document.body.style.overflow='';};
+ if(!superpassModal.classList.contains('is-drawer')||reduced.matches){finish();return;}
+ superpassModal.classList.add('is-closing');
+ let done=false;
+ const complete=()=>{if(done)return;done=true;superpassModal.removeEventListener('animationend',onAnimationEnd);clearTimeout(fallback);finish();};
+ const onAnimationEnd=e=>{if(e.target===superpassModal&&e.animationName==='superpass-drawer-out')complete();};
+ superpassModal.addEventListener('animationend',onAnimationEnd);
+ const fallback=setTimeout(complete,500);
+}
+$('#get-superpass').addEventListener('click',()=>openSuperpass());
 $('#close-superpass').addEventListener('click',closeSuperpass);
 superpassModal.addEventListener('cancel',e=>{e.preventDefault();closeSuperpass()});
+superpassModal.addEventListener('click',e=>{if(!superpassModal.classList.contains('is-drawer'))return;const bounds=superpassModal.getBoundingClientRect();if(e.clientX<bounds.left||e.clientX>bounds.right||e.clientY<bounds.top||e.clientY>bounds.bottom)closeSuperpass();});
 superpassModal.addEventListener('close',()=>{superpassForm.reset()});
 superpassForm.addEventListener('submit',e=>{e.preventDefault();const name=$('#superpass-name').value.trim(),email=$('#superpass-email').value.trim();$('#superpass-success-message').textContent=`Thanks, ${name} — we'll send your Superpass confirmation to ${email}.`;superpassFormView.hidden=true;superpassSuccessView.hidden=false;});
 $('#superpass-done').addEventListener('click',closeSuperpass);

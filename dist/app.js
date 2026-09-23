@@ -99,16 +99,16 @@ function resetLocationMotion(){previewRunning=false;targetX=0;targetY=0;if(!prev
 function renderAyodhyaStory(){
  if(!locationPreview.classList.contains('is-ayodhya-story'))return;
  const distance=Math.max(1,locationPreview.scrollHeight-locationPreview.clientHeight),p=clamp(locationPreview.scrollTop/distance),fade=(start,end)=>smooth(start,end,p);
- const opacities=[1-fade(.22,.38),fade(.22,.38)*(1-fade(.56,.72)),fade(.56,.72)];
- const copyOpacities=[1-fade(.21,.29),fade(.31,.42)*(1-fade(.56,.65)),fade(.66,.77)];
- const zoomRanges=[[0,.38],[.22,.72],[.56,1]],zoomStarts=[1.02,1.14,1.02],zoomEnds=[2.25,1.45,1.3];
+ const opacities=[1-fade(.22,.38),fade(.22,.38)*(1-fade(.72,.84)),fade(.72,.84)];
+ const copyOpacities=[1-fade(.21,.29),fade(.31,.42)*(1-fade(.72,.8)),fade(.82,.9)];
+ const zoomRanges=[[0,.38],[.22,.84],[.72,1]],zoomStarts=[1.02,1.14,1.02],zoomEnds=[2.25,1.45,1.3];
  ayodhyaScenes.forEach((scene,index)=>{
   const [start,end]=zoomRanges[index],travel=clamp((p-start)/(end-start)),zoom=zoomStarts[index]+(zoomEnds[index]-zoomStarts[index])*travel;
   scene.style.opacity=opacities[index].toFixed(3);
   scene.querySelector('.ayodhya-story__copy').style.opacity=copyOpacities[index].toFixed(3);
   scene.querySelector('img').style.transform=reduced.matches?'none':index===0?`translate3d(0,${(travel*26).toFixed(1)}%,0) scale(${zoom.toFixed(3)})`:`scale(${zoom.toFixed(3)})`;
  });
- const current=p<.36?0:p<.7?1:2;
+ const current=p<.36?0:p<.8?1:2;
  ayodhyaProgressLabel.textContent=`0${current+1} / 03`;
  ayodhyaProgressFill.style.transform=`scaleX(${p.toFixed(3)})`;
 }
