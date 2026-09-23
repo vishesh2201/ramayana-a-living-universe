@@ -5,7 +5,7 @@ const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
 const smooth=(a,b,v)=>{const t=clamp((v-a)/(b-a));return t*t*(3-2*t)};
 flowSections.forEach((section,index)=>{
  const slot=document.createElement('div');
- slot.className=`flow-slot${index===0?' flow-slot--first':''}`;
+ slot.className=`flow-slot${index===0?' flow-slot--first':''}${section.id==='characters'?' flow-slot--characters':''}`;
  section.before(slot);slot.append(section);
  section.style.zIndex=String(10+index);
 });
@@ -21,6 +21,11 @@ function renderFlowTransitions(){
   section.style.setProperty('--flow-arrival',arrival);
   section.classList.toggle('is-flow-active',active);
   section.inert=!active;
+  if(section.id==='characters'){
+   const animationDistance=Math.max(1,slot.offsetHeight-innerHeight*1.25);
+   if(typeof setSageDepthProgress==='function')setSageDepthProgress(clamp(-top/animationDistance));
+   if(typeof setSageDepthActive==='function')setSageDepthActive(active);
+  }
   if(active||approaching&&arrival>.55)activeIndex=index;
  });
  if(activeIndex>=0){

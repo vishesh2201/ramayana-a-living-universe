@@ -7,6 +7,10 @@
   margin-top: -100svh;
 }
 
+.flow-slot--characters {
+  height: 480svh;
+}
+
 .flow-slot > .flow-section {
   position: fixed;
   inset: 0;
@@ -35,6 +39,38 @@
 .flow-slot > .story-section,
 .flow-slot > .ticket-section {
   min-height: 0;
+}
+
+.flow-slot > #characters {
+  padding: 0;
+}
+
+.flow-slot > #characters > .section-heading,
+.flow-slot > #characters > .section-footer {
+  display: none;
+}
+
+.flow-slot #characters .sage-window {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100svh;
+  min-height: 0;
+  border: 0;
+}
+
+.flow-slot #characters .sage-depth__stage {
+  position: absolute;
+  inset: 0;
+  height: 100svh;
+}
+
+.flow-slot #characters .sage-depth__scroller {
+  overflow: hidden;
+}
+
+.flow-slot #characters .sage-depth__track {
+  height: 100svh;
 }
 
 @media (prefers-reduced-motion: reduce) {
