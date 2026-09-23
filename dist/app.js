@@ -18,9 +18,14 @@ function renderFlowTransitions(){
   const approaching=top>0&&top<innerHeight;
   const active=top<=0&&bottom>0;
   const arrival=reduced.matches?(active?1:0):approaching?smooth(.5,.96,1-top/innerHeight):active?1:0;
+  const departure=!reduced.matches&&active&&bottom<innerHeight?smooth(0,1,1-bottom/innerHeight):0;
+  const entryScale=index===0?.94+arrival*.06:1.07-arrival*.07;
+  const scale=reduced.matches?1:active?1+departure*.075:entryScale;
   section.style.setProperty('--flow-arrival',arrival);
+  section.style.setProperty('--flow-scale',scale);
   section.classList.toggle('is-flow-active',active);
   section.inert=!active;
+  if(index===0)map.style.transform=reduced.matches?'none':`scale(${(1+arrival*.075).toFixed(3)})`;
   if(section.id==='characters'){
    const animationDistance=Math.max(1,slot.offsetHeight-innerHeight*1.25);
    if(typeof setSageDepthProgress==='function')setSageDepthProgress(clamp(-top/animationDistance));

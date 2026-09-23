@@ -48,6 +48,36 @@
   perspective-origin: 50% 50%;
 }
 
+.sage-depth__backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.sage-depth__backdrop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 45%, transparent 32%, rgba(8, 6, 4, .6) 100%);
+}
+
+.sage-depth__backdrop-layer {
+  position: absolute;
+  inset: -12%;
+  background-position: center;
+  background-size: cover;
+  filter: blur(80px) saturate(1.3) brightness(.85);
+  transform: scale(1.18);
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  will-change: opacity;
+}
+
+.sage-depth__backdrop-layer.is-visible {
+  opacity: 1;
+}
+
 .sage-depth__intro {
   position: absolute;
   z-index: 2;
@@ -78,6 +108,31 @@
   color: #aa9e8b;
   font-size: 12px;
   letter-spacing: .5px;
+}
+
+.sage-depth__names {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+}
+
+.sage-depth__label {
+  position: absolute;
+  top: 9%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  opacity: 0;
+  will-change: opacity;
+}
+
+.sage-depth__label b {
+  display: block;
+  font: 400 clamp(30px, 4.2vw, 58px)/1 Epic, Georgia, serif;
+  letter-spacing: 3px;
+  color: #eadfca;
+  text-shadow: 0 12px 40px rgba(0, 0, 0, .55);
 }
 
 .sage-depth__scene {
@@ -164,6 +219,14 @@
     letter-spacing: -2px;
   }
 
+  .sage-depth__label {
+    top: 6%;
+  }
+
+  .sage-depth__label b {
+    font-size: clamp(26px, 9vw, 40px);
+  }
+
   .sage-depth__image {
     width: 82vw;
   }
@@ -184,6 +247,10 @@
 
 @media (prefers-reduced-motion: reduce) {
   .sage-experience {
+    transition: none;
+  }
+
+  .sage-depth__backdrop-layer {
     transition: none;
   }
 }

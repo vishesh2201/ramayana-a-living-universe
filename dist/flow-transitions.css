@@ -1,6 +1,7 @@
 .flow-slot {
   position: relative;
   height: 150svh;
+  pointer-events: none;
 }
 
 .flow-slot--first {
@@ -20,10 +21,10 @@
   padding-top: clamp(88px, 11svh, 120px);
   padding-bottom: 72px;
   opacity: var(--flow-arrival, 0);
-  transform: translateZ(0);
+  transform: scale(var(--flow-scale, 1)) translateZ(0);
   pointer-events: none;
   backface-visibility: hidden;
-  will-change: opacity;
+  will-change: opacity, transform;
 }
 
 .flow-slot > .flow-section.is-flow-active {
