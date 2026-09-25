@@ -36,7 +36,7 @@
 
 .sage-depth__track {
   position: relative;
-  height: 475svh;
+  height: 610svh;
 }
 
 .sage-depth__stage {
@@ -82,6 +82,24 @@
   opacity: 1;
 }
 
+.sage-depth__vault-bg {
+  position: absolute;
+  inset: -6%;
+  z-index: 1;
+  background: url('assets/vaultbackground.webp') center / cover no-repeat;
+  filter: blur(16px) saturate(1.15) brightness(.7);
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.sage-depth__vault-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 45%, transparent 32%, rgba(8, 6, 4, .6) 100%);
+}
+
 .sage-depth__intro {
   position: absolute;
   z-index: 2;
@@ -110,7 +128,8 @@
 .sage-depth__intro p {
   margin-top: 24px;
   color: #aa9e8b;
-  font-size: 12px;
+  font-size: clamp(15px, 1.3vw, 20px);
+  line-height: 1.5;
   letter-spacing: .5px;
 }
 
@@ -146,6 +165,35 @@
 .sage-depth__image--wide {
   width: clamp(480px, 57vw, 1100px);
   aspect-ratio: 16 / 9;
+}
+
+.sage-depth__image--title {
+  inset: 0;
+  display: flex;
+  width: auto;
+  height: auto;
+  aspect-ratio: auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  background: transparent;
+  box-shadow: none;
+  color: #eadfca;
+  text-align: center;
+}
+
+.sage-depth__image--title > span {
+  margin-bottom: 18px;
+  color: #caad78;
+  font-size: 10px;
+  letter-spacing: 3px;
+}
+
+.sage-depth__image--title h2 {
+  margin: 0;
+  font: 400 clamp(54px, 8vw, 126px)/.88 'Trajan Pro', Epic, Georgia, serif;
+  letter-spacing: -4px;
 }
 
 .sage-depth__image--interactive {
@@ -283,6 +331,30 @@
   text-shadow: 0 12px 40px rgba(0, 0, 0, .55);
   pointer-events: none;
   white-space: nowrap;
+  text-align: center;
+}
+
+.sage-depth__epithet {
+  position: fixed;
+  z-index: 25;
+  left: 50%;
+  bottom: 84px;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 90vw;
+  margin: 0;
+  text-align: center;
+  font-family: 'Trajan Pro', Epic, Georgia, serif;
+  font-weight: 400;
+  line-height: 1;
+  font-size: clamp(24px, 2.8vw, 42px);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #eadfca;
+  text-shadow: 0 10px 34px rgba(0, 0, 0, .65);
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
 }
 
 .sage-depth__progress {
@@ -323,7 +395,8 @@
     height: 88svh;
   }
 
-  .sage-depth__backdrop-media {
+  .sage-depth__backdrop-media,
+  .sage-depth__vault-bg {
     filter: blur(9px) saturate(1.1) brightness(.7);
   }
 
@@ -342,6 +415,21 @@
 
   .sage-depth__image--wide {
     width: 96vw;
+  }
+
+  .sage-depth__image--title {
+    width: auto;
+  }
+
+  .sage-depth__image--title h2 {
+    font-size: clamp(50px, 15vw, 76px);
+    letter-spacing: -2px;
+  }
+
+  .sage-depth__epithet {
+    bottom: 62px;
+    max-width: 84vw;
+    font-size: clamp(18px, 5.5vw, 28px);
   }
 
   .sage-depth__video-close {

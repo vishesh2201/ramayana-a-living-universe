@@ -11,6 +11,7 @@ flowSections.forEach((section,index)=>{
 });
 const flowSlots=$$('.flow-slot');
 const mapJourneyDistance=()=>Math.max(1,journey.offsetHeight-innerHeight*3);
+const pageScrollProgress=()=>clamp(scrollY/Math.max(1,document.documentElement.scrollHeight-innerHeight));
 let progress=0,queued=false,currentChapter=-1;
 function renderFlowTransitions(){
  let activeIndex=-1;
@@ -31,7 +32,7 @@ function renderFlowTransitions(){
   if(section.id==='tickets')document.body.classList.toggle('hide-global-ticket-form',active||(approaching&&arrival>.7));
   if(section.id==='characters'){
    const introHold=innerHeight;
-   const animationDistance=Math.max(1,slot.offsetHeight-innerHeight*1.25-introHold);
+   const animationDistance=Math.max(1,slot.offsetHeight-innerHeight*1.15-introHold);
    if(typeof setSageDepthProgress==='function')setSageDepthProgress(clamp((-top-introHold)/animationDistance));
    if(typeof setSageDepthActive==='function')setSageDepthActive(active);
   }
@@ -51,7 +52,7 @@ function render(){
  hero.style.opacity=heroAlpha;hero.style.transform=reduced.matches?'none':`translateY(${-p*210}px)`;hero.inert=heroAlpha<.25;
  descent.style.opacity=descAlpha;descent.setAttribute('aria-hidden',descAlpha<.3);descent.style.transform=reduced.matches?'none':`translateY(${(p-.44)*-100}px)`;
  mist.style.opacity=reduced.matches?0:Math.sin(clamp((p-.14)/.58)*Math.PI)*.78;mist.style.transform=`translateY(${(p-.4)*-38}%) scale(${1+p*.3})`;
- map.style.opacity=mapAlpha;map.inert=p<.79;meta.style.opacity=1-smooth(.06,.26,p);$('.progress-line span').style.width=`${p*100}%`;
+ map.style.opacity=mapAlpha;map.inert=p<.79;meta.style.opacity=1-smooth(.06,.26,p);$('.progress-line span').style.width=`${pageScrollProgress()*100}%`;
  const chapter=p<.25?0:p<.7?1:2;
  if(chapter!==currentChapter){currentChapter=chapter;$$('[data-chapter]').forEach(b=>{const i=+b.dataset.chapter;b.classList.toggle('active',i===chapter);if(i===chapter)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current')})}
  veil.style.opacity=0;
