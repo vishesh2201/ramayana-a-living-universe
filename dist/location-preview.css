@@ -137,7 +137,7 @@ body.location-preview-open {
 
 .ayodhya-story__copy h3 {
   margin-top: 16px;
-  font: 400 clamp(48px, 5.8vw, 98px)/.9 Epic, Georgia, serif;
+  font: 400 clamp(48px, 5.8vw, 98px)/.9 'Trajan Pro', Epic, Georgia, serif;
   letter-spacing: -3px;
   text-shadow: 0 8px 40px rgba(0, 0, 0, .55);
 }

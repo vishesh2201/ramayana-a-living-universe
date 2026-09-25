@@ -23,8 +23,8 @@ let currentStoryKey='standard';
 function selectStory(key){currentStoryKey=key;const theme=themes[key];$$('[data-story]').forEach(b=>{const on=b.dataset.story===key;b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1});$('#story-placeholder').setAttribute('aria-labelledby','tab-'+key);$('#placeholder-title').textContent=theme.title;$('#connection-character').textContent=theme.characters;$('#connection-place').textContent=theme.places;}
 $$('[data-story]').forEach((b,i)=>{b.addEventListener('click',()=>selectStory(b.dataset.story));b.addEventListener('keydown',e=>{const tabs=$$('[data-story]');let index;if(e.key==='ArrowRight')index=(i+1)%3;if(e.key==='ArrowLeft')index=(i+2)%3;if(e.key==='Home')index=0;if(e.key==='End')index=2;if(index!==undefined){e.preventDefault();tabs[index].focus();selectStory(tabs[index].dataset.story)}})});
 const sageWindowEl=$('#sage-window'),sageScroller=$('.sage-depth__scroller'),sageStage=$('.sage-depth__stage'),sageImages=$$('.sage-depth__image'),sageVideos=$$('.sage-depth__video'),sageInteractiveVideos=$$('[data-expandable-video]'),sageVideoClose=$('.sage-depth__video-close'),sageIntro=$('.sage-depth__intro'),sageProgress=$('.sage-depth__progress b'),sageOutput=$('.sage-depth__progress output'),sageLastImage=sageImages[sageImages.length-1];
-const sageBackdropImg=$('.sage-depth__backdrop-media--image'),sageBackdropVideo=$('.sage-depth__backdrop-media--video');
-let sageBackdropFrame=null;
+const sageBackdropVideos=$$('.sage-depth__backdrop-media--video'),sageBackdropImages=$$('.sage-depth__backdrop-media--image');
+let sageBackdropFrame=null,sageBackdropActive=null,sageBackdropVideoSlot=0,sageBackdropImageSlot=0;
 function updateSageBackdrop(){
  let winner=sageImages[0],winnerOpacity=-1;
  sageImages.forEach(item=>{const op=parseFloat(item.style.opacity)||0;if(op>winnerOpacity){winnerOpacity=op;winner=item;}});
@@ -33,23 +33,31 @@ function updateSageBackdrop(){
  const video=winner.querySelector('video'),img=winner.querySelector('img');
  if(video){
   const src=video.currentSrc||video.src;
-  const swap=()=>{sageBackdropVideo.classList.add('is-visible');sageBackdropImg.classList.remove('is-visible');};
-  if(sageBackdropVideo.src!==src){
-   sageBackdropVideo.oncanplay=null;
-   sageBackdropVideo.src=src;
-   sageBackdropVideo.play().catch(()=>{});
-   if(sageBackdropVideo.readyState>=2)swap();
-   else sageBackdropVideo.oncanplay=()=>{swap();sageBackdropVideo.oncanplay=null;};
-  }else swap();
+  if(sageBackdropActive&&sageBackdropActive.tagName==='VIDEO'&&sageBackdropActive.src===src)return;
+  const target=sageBackdropVideos[sageBackdropVideoSlot];
+  sageBackdropVideoSlot=1-sageBackdropVideoSlot;
+  const doSwap=()=>{
+   try{if(video.currentTime)target.currentTime=video.currentTime;}catch(e){}
+   sageBackdropVideos.forEach(v=>{if(v!==target){v.classList.remove('is-visible');v.pause();}});
+   sageBackdropImages.forEach(i=>i.classList.remove('is-visible'));
+   target.classList.add('is-visible');
+   sageBackdropActive=target;
+  };
+  if(target.src===src&&target.readyState>=2){target.play().catch(()=>{});doSwap();}
+  else{target.oncanplay=()=>{target.oncanplay=null;doSwap();};target.src=src;target.play().catch(()=>{});}
  }else if(img){
   const src=img.currentSrc||img.src;
-  const swap=()=>{sageBackdropImg.classList.add('is-visible');sageBackdropVideo.classList.remove('is-visible');sageBackdropVideo.pause();};
-  if(sageBackdropImg.src!==src){
-   sageBackdropImg.onload=null;
-   sageBackdropImg.src=src;
-   if(sageBackdropImg.complete)swap();
-   else sageBackdropImg.onload=()=>{swap();sageBackdropImg.onload=null;};
-  }else swap();
+  if(sageBackdropActive&&sageBackdropActive.tagName==='IMG'&&sageBackdropActive.src===src)return;
+  const target=sageBackdropImages[sageBackdropImageSlot];
+  sageBackdropImageSlot=1-sageBackdropImageSlot;
+  const doSwap=()=>{
+   sageBackdropImages.forEach(i=>{if(i!==target)i.classList.remove('is-visible')});
+   sageBackdropVideos.forEach(v=>{v.classList.remove('is-visible');v.pause();});
+   target.classList.add('is-visible');
+   sageBackdropActive=target;
+  };
+  if(target.src===src&&target.complete)doSwap();
+  else{target.onload=()=>{target.onload=null;doSwap();};target.src=src;}
  }
 }
 sageLastImage.style.width='auto';sageLastImage.style.height='auto';sageLastImage.style.aspectRatio='auto';sageLastImage.style.top='0';sageLastImage.style.left='0';

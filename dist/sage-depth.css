@@ -103,7 +103,7 @@
 
 .sage-depth__intro h2 {
   margin-top: 18px;
-  font: 400 clamp(62px, 8vw, 130px)/.88 Epic, Georgia, serif;
+  font: 400 clamp(62px, 8vw, 130px)/.88 'Trajan Pro', Epic, Georgia, serif;
   letter-spacing: -4px;
 }
 
@@ -273,7 +273,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   margin: 0;
-  font-family: Epic, Georgia, serif;
+  font-family: 'Trajan Pro', Epic, Georgia, serif;
   font-weight: 400;
   line-height: 1;
   font-size: clamp(64px, 9vw, 160px);
