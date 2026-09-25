@@ -66,13 +66,20 @@
   background: radial-gradient(ellipse at 50% 45%, transparent 32%, rgba(8, 6, 4, .6) 100%);
 }
 
-.sage-depth__backdrop-layer {
+.sage-depth__backdrop-media {
   position: absolute;
-  inset: 0;
-  background-image: url('assets/vault-world.webp');
-  background-position: center;
-  background-size: cover;
-  filter: saturate(1.3) brightness(.85);
+  inset: -6%;
+  width: 112%;
+  height: 112%;
+  object-fit: cover;
+  filter: blur(16px) saturate(1.15) brightness(.7);
+  opacity: 0;
+  transition: opacity .5s ease;
+  will-change: opacity;
+}
+
+.sage-depth__backdrop-media.is-visible {
+  opacity: 1;
 }
 
 .sage-depth__intro {
@@ -314,6 +321,10 @@
 @media (max-width: 760px) {
   .sage-depth__stage {
     height: 88svh;
+  }
+
+  .sage-depth__backdrop-media {
+    filter: blur(9px) saturate(1.1) brightness(.7);
   }
 
   .sage-depth__intro h2 {

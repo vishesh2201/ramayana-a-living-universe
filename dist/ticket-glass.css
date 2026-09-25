@@ -1,0 +1,58 @@
+/* Frosted glass treatment for the floating name, email and ticket panel. */
+.hero-superpass-form {
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .4);
+  border-top-color: rgba(255, 255, 255, .72);
+  border-left-color: rgba(255, 255, 255, .52);
+  border-radius: 22px;
+  background: linear-gradient(145deg,
+    rgba(236, 247, 241, .27),
+    rgba(169, 197, 188, .15) 45%,
+    rgba(10, 27, 23, .55));
+  -webkit-backdrop-filter: blur(28px) saturate(1.65);
+  backdrop-filter: blur(28px) saturate(1.65);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .38),
+    inset 0 1px 0 rgba(255, 255, 255, .38),
+    inset 0 -1px 0 rgba(255, 255, 255, .1);
+}
+
+.hero-superpass-form::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 15% 0%, rgba(255, 255, 255, .24), transparent 52%),
+    linear-gradient(115deg, rgba(255, 255, 255, .1), transparent 50%);
+}
+
+.hero-superpass-form .superpass-fields label {
+  color: #f0e4cd;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, .4);
+}
+
+.hero-superpass-form .superpass-fields input {
+  border: 1px solid rgba(255, 255, 255, .24);
+  border-radius: 11px;
+  background: rgba(5, 24, 19, .5);
+  color: #fffaf0;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.hero-superpass-form .superpass-fields input::placeholder {
+  color: rgba(244, 245, 236, .68);
+}
+
+.hero-superpass-form .superpass-cta,
+.hero-superpass-form .hero-ticket-cta {
+  border-radius: 11px;
+}
+
+.hero-superpass-form .hero-ticket-cta {
+  border-color: rgba(255, 255, 255, .42);
+  background: rgba(255, 255, 255, .1);
+  color: #fffaf0;
+}
