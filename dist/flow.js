@@ -32,15 +32,24 @@ function updateSageBackdrop(){
  sageBackdropFrame=winner;
  const video=winner.querySelector('video'),img=winner.querySelector('img');
  if(video){
-  sageBackdropVideo.src=video.currentSrc||video.src;
-  sageBackdropVideo.play().catch(()=>{});
-  sageBackdropVideo.classList.add('is-visible');
-  sageBackdropImg.classList.remove('is-visible');
+  const src=video.currentSrc||video.src;
+  const swap=()=>{sageBackdropVideo.classList.add('is-visible');sageBackdropImg.classList.remove('is-visible');};
+  if(sageBackdropVideo.src!==src){
+   sageBackdropVideo.oncanplay=null;
+   sageBackdropVideo.src=src;
+   sageBackdropVideo.play().catch(()=>{});
+   if(sageBackdropVideo.readyState>=2)swap();
+   else sageBackdropVideo.oncanplay=()=>{swap();sageBackdropVideo.oncanplay=null;};
+  }else swap();
  }else if(img){
-  sageBackdropImg.src=img.currentSrc||img.src;
-  sageBackdropImg.classList.add('is-visible');
-  sageBackdropVideo.classList.remove('is-visible');
-  sageBackdropVideo.pause();
+  const src=img.currentSrc||img.src;
+  const swap=()=>{sageBackdropImg.classList.add('is-visible');sageBackdropVideo.classList.remove('is-visible');sageBackdropVideo.pause();};
+  if(sageBackdropImg.src!==src){
+   sageBackdropImg.onload=null;
+   sageBackdropImg.src=src;
+   if(sageBackdropImg.complete)swap();
+   else sageBackdropImg.onload=()=>{swap();sageBackdropImg.onload=null;};
+  }else swap();
  }
 }
 sageLastImage.style.width='auto';sageLastImage.style.height='auto';sageLastImage.style.aspectRatio='auto';sageLastImage.style.top='0';sageLastImage.style.left='0';
