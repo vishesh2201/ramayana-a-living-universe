@@ -8,9 +8,35 @@
   height: 660vh;
 }
 
+/* The Superpass experience is not part of the current five-section journey. */
+#story,
+#hero-superpass-link,
+#hero-superpass-form .superpass-cta {
+  display: none;
+}
+
+#hero-superpass-form .hero-ticket-cta {
+  background: #dac298;
+  border-color: #dac298;
+  color: #112016;
+}
+
+#hero-superpass-form .hero-ticket-cta:hover {
+  background: #ead4ad;
+  border-color: #ead4ad;
+}
+
+/* Keep the name/email/buy-tickets widget on screen throughout the journey,
+   but step aside on the tickets section since it has its own copy of these fields. */
+body.hide-global-ticket-form #hero-superpass-form {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .flow-slot--first {
-  height: 350svh;
-  margin-top: -100svh;
+  height: 150svh;
+  /* Begin the standard 04 fade/scale handoff as the map sequence ends. */
+  margin-top: -200svh;
 }
 
 .flow-slot--characters {

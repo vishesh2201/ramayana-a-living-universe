@@ -1,6 +1,6 @@
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-const journey=$('.journey'),divine=$('.divine'),terrain=$('.terrain'),mist=$('.atmosphere'),hero=$('.hero-copy'),descent=$('.descent-copy'),map=$('.map-ui'),meta=$('.bottom-meta'),veil=$('.chapter-veil'),flowSections=$$('.flow-section');
+const journey=$('.journey'),divine=$('.divine'),terrain=$('.terrain'),mist=$('.atmosphere'),hero=$('.hero-copy'),descent=$('.descent-copy'),map=$('.map-ui'),meta=$('.bottom-meta'),veil=$('.chapter-veil'),flowSections=$$('.flow-section:not(#vault):not(#story)');
 const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
 const smooth=(a,b,v)=>{const t=clamp((v-a)/(b-a));return t*t*(3-2*t)};
 flowSections.forEach((section,index)=>{
@@ -10,14 +10,6 @@ flowSections.forEach((section,index)=>{
  section.style.zIndex=String(10+index);
 });
 const flowSlots=$$('.flow-slot');
-const vaultWindow=$('#vault .vault-window');
-const vaultMapFrame=document.createElement('div');
-vaultMapFrame.className='vault-map-frame';
-vaultMapFrame.setAttribute('aria-hidden','true');
-document.body.append(vaultMapFrame);
-let vaultFrameMetrics;
-function measureVaultFrame(){vaultFrameMetrics={left:vaultWindow.offsetLeft,top:vaultWindow.offsetTop,width:vaultWindow.offsetWidth,height:vaultWindow.offsetHeight};}
-measureVaultFrame();
 const mapJourneyDistance=()=>Math.max(1,journey.offsetHeight-innerHeight*3);
 let progress=0,queued=false,currentChapter=-1;
 function renderFlowTransitions(){
@@ -28,30 +20,15 @@ function renderFlowTransitions(){
   const active=top<=0&&bottom>0;
   const revealProgress=1-top/innerHeight;
   const entryProgress=clamp(revealProgress);
-  const arrival=reduced.matches?(active?1:0):approaching?smooth(index===0?.12:.5,index===0?.85:.96,entryProgress):active?1:0;
+  const arrival=reduced.matches?(active?1:0):approaching?smooth(.5,.96,entryProgress):active?1:0;
   const departure=!reduced.matches&&active&&bottom<innerHeight?smooth(0,1,1-bottom/innerHeight):0;
-  const entryScale=index===0?.94+arrival*.06:1.07-arrival*.07;
-  const scale=reduced.matches?1:active?1+departure*.075:index===0?1:entryScale;
+  const entryScale=1.07-arrival*.07;
+  const scale=reduced.matches?1:active?1+departure*.075:entryScale;
   section.style.setProperty('--flow-arrival',arrival);
   section.style.setProperty('--flow-scale',scale);
   section.classList.toggle('is-flow-active',active);
   section.inert=!active;
-  if(index===0){
-   const shrink=reduced.matches?1:smooth(.17,.78,entryProgress);
-   const frameOpacity=reduced.matches?0:smooth(.03,.19,entryProgress)*(1-smooth(.76,1.28,revealProgress));
-   const boxOpacity=reduced.matches?(active?1:0):smooth(.78,1.65,revealProgress);
-   const copy=reduced.matches?(active?1:0):smooth(.86,1.86,revealProgress);
-   vaultMapFrame.style.setProperty('--vault-map-left',`${(vaultFrameMetrics.left*shrink).toFixed(1)}px`);
-   vaultMapFrame.style.setProperty('--vault-map-top',`${(vaultFrameMetrics.top*shrink).toFixed(1)}px`);
-   vaultMapFrame.style.setProperty('--vault-map-width',`${(innerWidth+(vaultFrameMetrics.width-innerWidth)*shrink).toFixed(1)}px`);
-   vaultMapFrame.style.setProperty('--vault-map-height',`${(innerHeight+(vaultFrameMetrics.height-innerHeight)*shrink).toFixed(1)}px`);
-   vaultMapFrame.style.opacity=frameOpacity.toFixed(3);
-   section.style.setProperty('--vault-box-opacity',boxOpacity.toFixed(3));
-   section.style.setProperty('--vault-copy-opacity',copy.toFixed(3));
-   map.style.opacity=String(smooth(.61,.83,progress)*(1-smooth(.14,.5,entryProgress)));
-   map.style.transform='none';
-   map.style.filter='none';
-  }
+  if(section.id==='tickets')document.body.classList.toggle('hide-global-ticket-form',active||(approaching&&arrival>.7));
   if(section.id==='characters'){
    const introHold=innerHeight;
    const animationDistance=Math.max(1,slot.offsetHeight-innerHeight*1.25-introHold);
@@ -80,7 +57,7 @@ function render(){
  veil.style.opacity=0;
  renderFlowTransitions();
 }
-addEventListener('scroll',()=>{if(!queued){queued=true;requestAnimationFrame(render)}},{passive:true});addEventListener('resize',()=>{measureVaultFrame();render()});
+addEventListener('scroll',()=>{if(!queued){queued=true;requestAnimationFrame(render)}},{passive:true});addEventListener('resize',render);
 function go(p){scrollTo({top:mapJourneyDistance()*p,behavior:reduced.matches?'instant':'smooth'})}
 $$('[data-go-map]').forEach(b=>b.addEventListener('click',()=>go(1)));$('[data-go-descent]').addEventListener('click',()=>go(.44));$('.wordmark').addEventListener('click',e=>{e.preventDefault();go(0)});$$('[data-chapter]').forEach(b=>b.addEventListener('click',()=>go([0,.44,1][+b.dataset.chapter])));
 

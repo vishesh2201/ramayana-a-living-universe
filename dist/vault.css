@@ -1,3 +1,9 @@
+/*
+ * Vault feature toggle: the complete Vault implementation remains below, but is
+ * not rendered in the current journey. Remove this rule to restore the section.
+ */
+#vault { display: none; }
+
 /* Gabriel Veres-inspired vault: large sheets queue from the upper-right to lower-left. */
 .vault-section {
   background:
