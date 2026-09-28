@@ -72,7 +72,7 @@
   width: 112%;
   height: 112%;
   object-fit: cover;
-  filter: blur(16px) saturate(1.15) brightness(.7);
+  filter: blur(5px) saturate(1.15) brightness(.7);
   opacity: 0;
   transition: opacity .5s ease;
   will-change: opacity;
@@ -87,7 +87,7 @@
   inset: -6%;
   z-index: 1;
   background: url('assets/vaultbackground.webp') center / cover no-repeat;
-  filter: blur(16px) saturate(1.15) brightness(.7);
+  filter: blur(5px) saturate(1.15) brightness(.7);
   opacity: 0;
   pointer-events: none;
   will-change: opacity;
@@ -397,7 +397,7 @@
 
   .sage-depth__backdrop-media,
   .sage-depth__vault-bg {
-    filter: blur(9px) saturate(1.1) brightness(.7);
+    filter: blur(5px) saturate(1.1) brightness(.7);
   }
 
   .sage-depth__intro h2 {
