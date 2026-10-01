@@ -193,3 +193,22 @@ body.hide-global-ticket-form #hero-superpass-form {
     bottom: 28px;
   }
 }
+
+/* Hero widget is just the Buy tickets button: no frosted panel, no collapse.
+   To restore the frosted panel, delete this block (styles live in ticket-glass.css / flow.css). */
+#hero-superpass-form.hero-superpass-form {
+  background: none;
+  border: 0;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  padding: 0;
+  overflow: visible;
+}
+#hero-superpass-form.hero-superpass-form::before { content: none; }
+#hero-superpass-form .hero-cta-group { margin-top: 0; }
+@media (min-width: 761px) {
+  #hero-superpass-form.hero-superpass-form { left: auto; width: auto; max-width: none; margin: 0; }
+  #hero-superpass-form .hero-cta-group { display: block; }
+  #hero-superpass-form .hero-ticket-cta { width: auto; padding-left: 28px; padding-right: 28px; }
+}
