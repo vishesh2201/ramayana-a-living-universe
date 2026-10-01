@@ -254,3 +254,14 @@ body.hide-global-ticket-form #hero-superpass-form {
   .sound-toggle { box-sizing: border-box; width: 170px; justify-content: center; text-align: center; }
   .sound-toggle { padding-left: 12px; padding-right: 12px; }
 }
+/* Desktop: once the Buy tickets button has faded out (last section), the sound pill slides up into its spot. */
+@media (min-width: 761px) {
+  .sound-toggle {
+    transition: top .45s cubic-bezier(.4, 0, .2, 1), background .25s ease, border-color .25s ease, color .25s ease;
+  }
+  body.hide-global-ticket-form .sound-toggle {
+    top: 30px;
+    /* wait for the .3s fade-out of the Buy tickets button before moving */
+    transition: top .45s cubic-bezier(.4, 0, .2, 1) .3s, background .25s ease, border-color .25s ease, color .25s ease;
+  }
+}
