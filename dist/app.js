@@ -3,6 +3,23 @@ const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 const journey=$('.journey'),divine=$('.divine'),terrain=$('.terrain'),mist=$('.atmosphere'),hero=$('.hero-copy'),descent=$('.descent-copy'),map=$('.map-ui'),meta=$('.bottom-meta'),veil=$('.chapter-veil'),flowSections=$$('.flow-section:not(#vault):not(#story)');
 const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
 const smooth=(a,b,v)=>{const t=clamp((v-a)/(b-a));return t*t*(3-2*t)};
+/* Background audio: plays through the site, fades out in the vault/characters sections and back in at tickets. */
+const bgAudio=new Audio('assets/background_audio.mp3'),BG_MAX=.6;
+bgAudio.loop=true;bgAudio.volume=0;
+let bgAudioTarget=1,bgAudioLevel=0,bgAudioStarted=false,bgAudioLast=0;
+function bgAudioTick(t){
+ const dt=Math.min(100,t-bgAudioLast)/1000;bgAudioLast=t;
+ const goal=bgAudioTarget*BG_MAX,step=BG_MAX*dt/(goal>bgAudioLevel?2.5:1.5);
+ bgAudioLevel=goal>bgAudioLevel?Math.min(goal,bgAudioLevel+step):Math.max(goal,bgAudioLevel-step);
+ bgAudio.volume=clamp(bgAudioLevel);
+ requestAnimationFrame(bgAudioTick);
+}
+function startBgAudio(){
+ if(bgAudioStarted)return;
+ bgAudio.play().then(()=>{bgAudioStarted=true;['pointerdown','keydown','touchend','click'].forEach(e=>removeEventListener(e,startBgAudio));}).catch(()=>{});
+}
+['pointerdown','keydown','touchend','click'].forEach(e=>addEventListener(e,startBgAudio));
+startBgAudio();requestAnimationFrame(bgAudioTick);
 flowSections.forEach((section,index)=>{
  const slot=document.createElement('div');
  slot.className=`flow-slot${index===0?' flow-slot--first':''}${section.id==='characters'?' flow-slot--characters':''}`;
@@ -38,6 +55,7 @@ function renderFlowTransitions(){
   }
   if(active||approaching&&arrival>.55)activeIndex=index;
  });
+ bgAudioTarget=activeIndex>=0&&['vault','characters'].includes(flowSections[activeIndex].id)?0:1;
  if(activeIndex>=0){
   const activeId=flowSections[activeIndex].id;
   $('.flow-nav').classList.add('in-flow');
