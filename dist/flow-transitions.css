@@ -212,3 +212,45 @@ body.hide-global-ticket-form #hero-superpass-form {
   #hero-superpass-form .hero-cta-group { display: block; }
   #hero-superpass-form .hero-ticket-cta { width: auto; padding-left: 28px; padding-right: 28px; }
 }
+
+/* Sound on/off pill */
+.sound-toggle {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 20px;
+  border: 1px solid rgba(218, 194, 152, .45);
+  border-radius: 999px;
+  background: rgba(8, 14, 12, .55);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: #dac298;
+  font: inherit;
+  font-size: 12px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background .25s ease, border-color .25s ease, color .25s ease;
+}
+.sound-toggle:hover { background: rgba(218, 194, 152, .16); border-color: #dac298; color: #ead4ad; }
+.sound-toggle:focus-visible { outline: 2px solid #dac298; outline-offset: 3px; }
+.sound-toggle .sound-waves { display: none; }
+.sound-toggle[aria-pressed="true"] .sound-waves { display: inline; }
+.sound-toggle[aria-pressed="true"] .sound-x { display: none; }
+@media (max-width: 760px) {
+  .sound-toggle { right: 16px; bottom: 84px; padding: 10px 16px; }
+}
+/* Desktop: sound pill sits right under the Buy tickets button, same right edge. */
+@media (min-width: 761px) {
+  .sound-toggle { top: 92px; bottom: auto; right: clamp(24px, 5vw, 96px); padding: 10px 18px; }
+}
+/* Desktop: Buy tickets and sound pill share one fixed width. */
+@media (min-width: 761px) {
+  #hero-superpass-form .hero-ticket-cta,
+  .sound-toggle { box-sizing: border-box; width: 170px; justify-content: center; text-align: center; }
+  .sound-toggle { padding-left: 12px; padding-right: 12px; }
+}
