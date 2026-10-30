@@ -17,8 +17,45 @@
   <style>@media(min-width:761px){#story{padding-top:80px;padding-bottom:80px}#story .story-layout h2{font-size:clamp(58px,5vw,82px);margin:14px 0}#story .story-lead{font-size:14px;line-height:1.55}#story .story-tabs{margin-top:18px}#story #story-placeholder{padding:12px 0}#story #story-placeholder h3{font-size:26px;margin:10px 0}#story #story-placeholder p{font-size:14px;line-height:1.55}#story .connection-tags{margin-top:12px}#story .connection-tags span{padding:8px 11px;font-size:11px}#story #superpass-form{margin-top:10px}}</style>
   <style>@media(min-width:761px){#tickets{padding-top:80px;padding-bottom:80px}#tickets .ticket-inner h2{font-size:clamp(58px,5vw,82px);margin:14px 0}#tickets .ticket-inner>p{font-size:14px;line-height:1.55}#tickets .ticket-controls{margin-top:20px}#tickets #book-tickets{padding:16px 20px;font-size:16px}#tickets .section-footer{bottom:20px}}</style>
   <style>@media (min-width:761px){.hero-superpass-form{top:30px;right:clamp(24px,5vw,96px)}}</style>
+  <script>try{if(sessionStorage.getItem('rlu-unlocked')!=='1')document.documentElement.classList.add('locked')}catch(e){document.documentElement.classList.add('locked')}</script>
+  <style>#gate{display:none}html.locked,html.locked body{overflow:hidden}html.locked body>*:not(#gate){visibility:hidden}html.locked #gate{display:grid}#gate{position:fixed;inset:0;z-index:9999;place-items:center;padding:24px 16px;background:radial-gradient(ellipse at 50% 30%,#123230 0%,#071313 70%);text-align:center;transition:opacity .6s ease}#gate.leaving{opacity:0;pointer-events:none}.gate-inner{width:min(420px,100%)}.gate-inner .eyebrow{display:flex;align-items:center;justify-content:center;gap:17px}.gate-inner h1{font-size:clamp(40px,6vw,64px);letter-spacing:-1px;margin-top:20px}.gate-inner p{font-size:14px;color:#c6cdc3;margin-top:16px;line-height:1.6}#gate form{display:flex;flex-direction:column;gap:14px;margin-top:32px}#gate input{width:100%;padding:14px 16px;background:#0b1f1d;border:1px solid #d5c39b55;border-radius:2px;color:var(--ivory);font:inherit;font-size:16px;letter-spacing:2px;text-align:center}#gate input:focus{outline:none;border-color:var(--gold)}#gate button{padding:14px 16px;background:var(--gold);color:var(--ink);font-size:12px;letter-spacing:3px;border-radius:2px;transition:background .3s}#gate button:hover{background:#ead6a6}#gate-error{min-height:20px;font-size:12px;color:#e8a38f;letter-spacing:1px}#gate.shake .gate-inner{animation:gate-shake .4s}@keyframes gate-shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}</style>
 </head>
 <body>
+  <div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+    <div class="gate-inner">
+      <div class="eyebrow"><span></span> PRIVATE PREVIEW <span></span></div>
+      <h1 id="gate-title">RAMAYANA</h1>
+      <p>This universe is not yet open to all.<br>Enter the password to continue.</p>
+      <form id="gate-form" autocomplete="off">
+        <input id="gate-password" type="password" placeholder="Password" aria-label="Password" required>
+        <button type="submit">ENTER</button>
+        <div id="gate-error" aria-live="polite"></div>
+      </form>
+    </div>
+  </div>
+  <script>
+    (function(){
+      var HASH='54ef97529e0c45badfd40a8d45402ec4cbd75eea20e0cf3923558cf05e5b0796';
+      var gate=document.getElementById('gate'),form=document.getElementById('gate-form'),input=document.getElementById('gate-password'),err=document.getElementById('gate-error');
+      if(document.documentElement.classList.contains('locked'))input.focus();
+      form.addEventListener('submit',function(e){
+        e.preventDefault();
+        crypto.subtle.digest('SHA-256',new TextEncoder().encode(input.value)).then(function(buf){
+          var hex=Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0')}).join('');
+          if(hex===HASH){
+            try{sessionStorage.setItem('rlu-unlocked','1')}catch(e){}
+            gate.style.display='grid';
+            document.documentElement.classList.remove('locked');
+            gate.classList.add('leaving');
+            setTimeout(function(){gate.remove()},600);
+          }else{
+            err.textContent='Incorrect password';input.value='';
+            gate.classList.remove('shake');void gate.offsetWidth;gate.classList.add('shake');
+          }
+        });
+      });
+    })();
+  </script>
   <header class="header">
     <a class="wordmark" href="#" aria-label="Ramayana, return to the beginning">RAMAYANA<span>A LIVING UNIVERSE</span></a>
     <button class="explore-link" id="hero-superpass-link" type="button">Superpass <span aria-hidden="true">↗</span></button>
